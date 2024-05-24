@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public InputAction dash;
     #endregion
 
+    public bool isPlayer1 = true;
+
 
     private void Awake()
     {
@@ -39,18 +41,28 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        move = playerControls.Player.Move;
+        if (isPlayer1)
+        {
+            move = playerControls.Player1.Move;
+            attack = playerControls.Player1.Attack;
+            jump = playerControls.Player1.Jump;
+            dash = playerControls.Player1.Dash;
+        }
+        else
+        {
+            move = playerControls.Player2.Move;
+            attack = playerControls.Player2.Attack;
+            jump = playerControls.Player2.Jump;
+            dash = playerControls.Player2.Dash;
+        }
         move.Enable();
 
-        attack = playerControls.Player.Attack;
         attack.Enable();
         attack.performed += Attack;
 
-        jump = playerControls.Player.Jump;
         jump.Enable();
         jump.performed += Jump;
 
-        dash = playerControls.Player.Dash;
         dash.Enable();
         dash.performed += Dash;
     }
