@@ -12,4 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d45ddf721aba3a42be7f9807d1f40d9, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
-  FallAcceleration: 100
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  SnapInput: 1
+  HorizontalDeadZoneThreshold: 0.1
+  MaxSpeed: 14
+  Acceleration: 120
+  GroundDeceleration: 60
+  AirDeceleration: 30
+  GroundingForce: -1.5
+  GrounderDistance: 0.05
+  JumpPower: 36
+  MaxFallSpeed: 40
+  FallAcceleration: 110
+  JumpEndEarlyGravityModifier: 3
+  CoyoteTime: 0.15
+  JumpBuffer: 0.2
