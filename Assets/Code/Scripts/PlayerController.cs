@@ -1,17 +1,41 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D _rb;
+    private Rigidbody2D _rigidbody;
     private CapsuleCollider2D _collisionCollider;
     private Vector2 _moveDirection;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    private bool _canJump = true;
+    [SerializeField] private bool _isGrounded = false;
+    private float _lastFacedDirection;
 
-    [SerializeField] private int _maxHealth = 100;
-    private int _currentHealth;
+    private readonly int _maxHealth = 100;
+    public int MaxHealth => _maxHealth;
+    public float HealthPercentage => (float)CurrentHealth / _maxHealth;
+    private readonly int _maxStamina = 100;
+    public int MaxStamina => _maxStamina;
+    public float StaminaPercentage => (float)CurrentStamina / _maxStamina;
+    [field: SerializeField] public int CurrentHealth { get; private set; }
+    [field: SerializeField] public int CurrentStamina { get; private set; }
+
+    //public int Test
+    //{
+    //    get
+    //    {
+    //        return _currentHealth;
+    //    }
+    //    set
+    //    {
+    //        if(value < 0)
+    //            _currentHealth = 0;
+
+    //    }
+    //}
 
     public float moveSpeed = 1f; //PUT THIS IN SCRIPTABLESTATS
     public float jumpForce = 1f; //PUT THIS IN SCRIPTABLESTATS
@@ -25,18 +49,25 @@ public class PlayerController : MonoBehaviour
     public InputAction dash;
     #endregion
 
+    public GameObject rightHitbox;
+    public GameObject leftHitbox;
+
     public bool isPlayer1 = true;
+
+    public UnityEvent<PlayerController> PlayerTookDamage;
 
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
         _collisionCollider = GetComponent<CapsuleCollider2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         playerControls = new PlayerInputActions();
 
-        _currentHealth = _maxHealth;
+        CurrentHealth = _maxHealth;
+        CurrentStamina = _maxStamina;
+        _lastFacedDirection = isPlayer1 ? 1 : -1;
     }
 
     private void OnEnable()
@@ -47,6 +78,7 @@ public class PlayerController : MonoBehaviour
             attack = playerControls.Player1.Attack;
             jump = playerControls.Player1.Jump;
             dash = playerControls.Player1.Dash;
+            PlayerManager.player1 = this;
         }
         else
         {
@@ -54,6 +86,7 @@ public class PlayerController : MonoBehaviour
             attack = playerControls.Player2.Attack;
             jump = playerControls.Player2.Jump;
             dash = playerControls.Player2.Dash;
+            PlayerManager.player2 = this;
         }
         move.Enable();
 
@@ -71,14 +104,16 @@ public class PlayerController : MonoBehaviour
     {
         move?.Disable();
         attack?.Disable();
+        if (isPlayer1)
+        {
+            PlayerManager.player1 = null;
+        }
+        else
+        {
+            PlayerManager.player2 = null;
+        }
     }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
-
-    }
 
     // Update is called once per frame
     private void Update()
@@ -90,20 +125,24 @@ public class PlayerController : MonoBehaviour
     {
         HandleDirection();
         ClampYVelocity();
+
+        _animator.SetFloat("yVelocity", _rigidbody.velocity.y);
     }
 
     private void HandleDirection()
     {
-        _rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _rb.velocity.y);
-        if (_rb.velocity.sqrMagnitude > 0)
+        _rigidbody.velocity = new Vector2(_moveDirection.x * moveSpeed, _rigidbody.velocity.y);
+        if (_rigidbody.velocity.sqrMagnitude > 0)
         {
-            if (_rb.velocity.x < 0)
+            if (_rigidbody.velocity.x < 0)
             {
                 _spriteRenderer.flipX = true;
+                _lastFacedDirection = -1;
             }
             else
             {
                 _spriteRenderer.flipX = false;
+                _lastFacedDirection = 1;
             }
             _animator.SetBool("isMoving", true);
         }
@@ -111,6 +150,39 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isMoving", false);
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            _isGrounded = true;
+            _animator.SetBool("isGrounded", _isGrounded);
+            _canJump = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") && (_rigidbody.velocity.y > 0f || _rigidbody.velocity.y < -0f))
+        {
+            _isGrounded = false;
+            _animator.SetBool("isGrounded", _isGrounded);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PlayerAttack"))
+        {
+            Debug.Log("hit someone");
+            TakeDamage(10);
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        CurrentHealth -= damage;
+        PlayerTookDamage.Invoke(this);
     }
 
     private void HandleInput()
@@ -124,14 +196,41 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger("attack");
     }
 
+    public void ActivateAttackHitbox()
+    {
+        if (_lastFacedDirection == -1)
+        {
+            leftHitbox.SetActive(true);
+        }
+        else
+        {
+            rightHitbox.SetActive(true);
+        }
+    }
+
+    public void DeactivateAttackHitbox()
+    {
+        if (_lastFacedDirection == -1)
+        {
+            leftHitbox.SetActive(false);
+        }
+        else
+        {
+            rightHitbox.SetActive(false);
+        }
+    }
+
     private void Jump(InputAction.CallbackContext callbackContext)
     {
+        if (!_canJump) return;
+
         Debug.Log("Jumping");
-        _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        _animator.SetTrigger("jump");
+        _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
     private void ClampYVelocity()
     {
-        _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -19.62f, jumpForce));
+        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, Mathf.Clamp(_rigidbody.velocity.y, -19.62f, jumpForce));
     }
 
     private void Dash(InputAction.CallbackContext callbackContext)
