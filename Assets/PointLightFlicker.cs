@@ -6,16 +6,10 @@ public class PointLightFlicker : MonoBehaviour
 {
     [SerializeField] private Light2D _light;
     public bool isTorch = true;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         StartCoroutine(nameof(FlickerRoutine));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private IEnumerator FlickerRoutine()
