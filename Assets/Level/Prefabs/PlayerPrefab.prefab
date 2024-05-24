@@ -106,7 +106,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isGrounded: 0
-  _maxHealth: 100
+  _attackCooldown: 0.5
+  <CurrentHealth>k__BackingField: 0
+  <CurrentStamina>k__BackingField: 0
   moveSpeed: 1
   jumpForce: 3.7
   move:
@@ -148,6 +150,9 @@ MonoBehaviour:
   rightHitbox: {fileID: 3800189779131123440}
   leftHitbox: {fileID: 5588262902191774562}
   isPlayer1: 1
+  PlayerTookDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!70 &6145257468665038803
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

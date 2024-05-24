@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -13,6 +15,9 @@ public class PlayerController : MonoBehaviour
     private bool _canJump = true;
     [SerializeField] private bool _isGrounded = false;
     private float _lastFacedDirection;
+    [SerializeField, Range(0f, 2f)] private float _attackCooldown;
+    private float _remainingAttackCooldown;
+    private bool _canAttack = true;
 
     private readonly int _maxHealth = 100;
     public int MaxHealth => _maxHealth;
@@ -182,7 +187,17 @@ public class PlayerController : MonoBehaviour
     private void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
-        PlayerTookDamage.Invoke(this);
+        //PlayerTookDamage.Invoke(this);
+    }
+
+    private void RecoverStamina()
+    {
+
+    }
+
+    private void DrainStamina(int stamina)
+    {
+        CurrentStamina -= stamina;
     }
 
     private void HandleInput()
@@ -192,8 +207,17 @@ public class PlayerController : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("Attacking");
+        if (!_canAttack) return;
+
+        _canAttack = false;
         _animator.SetTrigger("attack");
+        StartCoroutine(nameof(AttackCooldownRoutine));
+    }
+
+    private IEnumerator AttackCooldownRoutine()
+    {
+        yield return new WaitForSeconds(_attackCooldown);
+        _canAttack = true;
     }
 
     public void ActivateAttackHitbox()
@@ -224,7 +248,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!_canJump) return;
 
-        Debug.Log("Jumping");
         _animator.SetTrigger("jump");
         _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
