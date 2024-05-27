@@ -6,6 +6,8 @@ public class UIHandler : MonoBehaviour
 {
     [SerializeField] private Slider _healthBar;
     [SerializeField] private Slider _staminaBar;
+    [SerializeField] private Image _heart1;
+    [SerializeField] private Image _heart2;
     private PlayerController _player;
     public bool isPlayer1 = true;
 
@@ -42,6 +44,22 @@ public class UIHandler : MonoBehaviour
             _staminaBar.value = _player.StaminaPercentage;
         }
 
+        switch (_player.LivesRemaining)
+        {
+            case 0:
+                _heart1.enabled = false;
+                break;
+            case 1:
+                _heart2.enabled = false;
+                break;
+        }
+
+    }
+
+    private void LoseHeartAndPlayVFX(int heart)
+    {
+
+        _heart1.GetComponent<SpriteRenderer>().enabled = false;
     }
 }
 

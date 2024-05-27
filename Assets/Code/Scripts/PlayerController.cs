@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private float _lastFacedDirection;
     [SerializeField, Range(0f, 2f)] private float _attackCooldown;
     private bool _canAttack = true;
+    [SerializeField] private readonly int _staminaAttackDrain = 10;
+    [SerializeField] private readonly int _staminaJumpDrain = 10;
 
     public VisualEffect _hitEffect;
 
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public int CurrentStamina { get; private set; }
 
     private int _livesRemaining = 2;
+    public int LivesRemaining => _livesRemaining;
 
     //public int Test
     //{
@@ -64,6 +67,7 @@ public class PlayerController : MonoBehaviour
     public bool isPlayer1 = true;
 
     public UnityEvent<PlayerController> PlayerTookDamage;
+    public UnityEvent<PlayerController> PlayerDied;
 
 
     private void Awake()
@@ -208,46 +212,61 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
+        _livesRemaining -= 1;
         if (_livesRemaining > 1)
         {
             _spriteRenderer.enabled = false;
-            _livesRemaining -= 1;
             Debug.Log("Lives remaining: " + _livesRemaining);
-            StartCoroutine(nameof(RoundReset));
         }
         else
         {
             string winner = isPlayer1 ? "Player 1" : "Player 2";
             Debug.Log(winner + " wins!");
         }
+        PlayerDied.Invoke(this);
     }
 
-    private IEnumerator RoundReset()
+    public void RoundReset()
+    {
+        DeactivateControls();
+        StopCoroutine(nameof(RecoverStaminaRoutine));
+        StartCoroutine(nameof(RoundResetRoutine));
+    }
+    private IEnumerator RoundResetRoutine()
     {
         yield return new WaitForSeconds(2f);
         CurrentHealth = MaxHealth;
+        CurrentStamina = MaxStamina;
         _spriteRenderer.enabled = true;
+        ActivateControls();
+        StartCoroutine(nameof(RecoverStaminaRoutine));
     }
 
     private IEnumerator RecoverStaminaRoutine()
     {
-        yield return new WaitForSeconds(0.5f);
-        if (CurrentStamina >= _maxStamina)
+        while (true)
         {
-            CurrentStamina = _maxStamina;
-        }
-        else
-        {
-            CurrentStamina += 5;
+            yield return new WaitForSeconds(0.1f);
+            if (CurrentStamina >= _maxStamina)
+            {
+                CurrentStamina = _maxStamina;
+            }
+            else
+            {
+                CurrentStamina += 1;
+                Debug.Log(CurrentStamina);
+            }
         }
     }
 
     private void DrainStamina(int stamina)
     {
         CurrentStamina -= stamina;
+        Debug.Log(CurrentStamina);
         if (CurrentStamina <= 0)
         {
             CurrentStamina = 0;
+
         }
     }
 
@@ -258,10 +277,10 @@ public class PlayerController : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext callbackContext)
     {
-        if (!_canAttack) return;
+        if (!_canAttack || CurrentStamina < _staminaAttackDrain) return;
 
         _canAttack = false;
-        DrainStamina(10);
+        DrainStamina(_staminaAttackDrain);
         _animator.SetTrigger("attack");
         StartCoroutine(nameof(AttackCooldownRoutine));
     }
@@ -298,8 +317,10 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext callbackContext)
     {
-        if (!_canJump) return;
+        if (!_canJump || CurrentStamina < _staminaJumpDrain) return;
 
+        _canJump = false;
+        DrainStamina(_staminaJumpDrain);
         _animator.SetTrigger("jump");
         _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
@@ -316,5 +337,15 @@ public class PlayerController : MonoBehaviour
     public void SpawnAt(Transform transform)
     {
         this.transform.position = transform.position;
+        _spriteRenderer.flipX = !isPlayer1;
+    }
+
+    public void ActivateControls()
+    {
+        playerControls.Enable();
+    }
+    private void DeactivateControls()
+    {
+        playerControls.Disable();
     }
 }

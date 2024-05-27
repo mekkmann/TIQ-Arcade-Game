@@ -19,9 +19,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void StartRound()
+    public void StartRound()
     {
         _player1.SpawnAt(_player1SpawnPoint);
         _player2.SpawnAt(_player2SpawnPoint);
+        _player1.RoundReset();
+        _player2.RoundReset();
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - PlayerAttack
+  - Platform
   layers:
   - Default
   - TransparentFX
