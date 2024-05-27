@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _isGrounded = false;
     private float _lastFacedDirection;
     [SerializeField, Range(0f, 2f)] private float _attackCooldown;
-    private float _remainingAttackCooldown;
     private bool _canAttack = true;
 
     public VisualEffect _hitEffect;
@@ -31,7 +30,7 @@ public class PlayerController : MonoBehaviour
     [field: SerializeField] public int CurrentHealth { get; private set; }
     [field: SerializeField] public int CurrentStamina { get; private set; }
 
-    private int _lives = 2;
+    private int _livesRemaining = 2;
 
     //public int Test
     //{
@@ -209,8 +208,25 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        _spriteRenderer.enabled = false;
-        _lives -= 1;
+        if (_livesRemaining > 1)
+        {
+            _spriteRenderer.enabled = false;
+            _livesRemaining -= 1;
+            Debug.Log("Lives remaining: " + _livesRemaining);
+            StartCoroutine(nameof(RoundReset));
+        }
+        else
+        {
+            string winner = isPlayer1 ? "Player 1" : "Player 2";
+            Debug.Log(winner + " wins!");
+        }
+    }
+
+    private IEnumerator RoundReset()
+    {
+        yield return new WaitForSeconds(2f);
+        CurrentHealth = MaxHealth;
+        _spriteRenderer.enabled = true;
     }
 
     private IEnumerator RecoverStaminaRoutine()
@@ -295,5 +311,10 @@ public class PlayerController : MonoBehaviour
     private void Dash(InputAction.CallbackContext callbackContext)
     {
         Debug.Log("Dashing");
+    }
+
+    public void SpawnAt(Transform transform)
+    {
+        this.transform.position = transform.position;
     }
 }
