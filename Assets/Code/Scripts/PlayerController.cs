@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform"))
         {
             _isGrounded = true;
             _animator.SetBool("isGrounded", _isGrounded);
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && (_rigidbody.velocity.y > 0f || _rigidbody.velocity.y < -0f))
+        if ((collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Platform")) && (_rigidbody.velocity.y > 0f || _rigidbody.velocity.y < -0f))
         {
             _isGrounded = false;
             _animator.SetBool("isGrounded", _isGrounded);

@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Level/Scenes/Mockup2.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Level/Scenes/MainMenu.unity
+    guid: ffcdf8f6437c14a4b811e46f9036f249
+  - enabled: 1
+    path: Assets/Level/Scenes/Mockup2.2 BASE.unity
+    guid: 127ad2ee66766a7499dc05c22abd7e57
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 470cd97854d003942a0ed1c8b519a382, type: 3}
   m_UseUCBPForAssetBundles: 0

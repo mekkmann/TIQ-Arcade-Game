@@ -2429,7 +2429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1074085442}
   - component: {fileID: 1074085443}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Right
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -2681,7 +2681,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1215833341}
   - component: {fileID: 1215833342}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Left
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -5013,7 +5013,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2144406558}
   - component: {fileID: 2144406559}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Middle
   m_TagString: Platform
   m_Icon: {fileID: 0}
