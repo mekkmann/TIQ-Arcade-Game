@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     private float _remainingAttackCooldown;
     private bool _canAttack = true;
 
+    public VisualEffect _hitEffect;
+
     private readonly int _maxHealth = 100;
     public int MaxHealth => _maxHealth;
     public float HealthPercentage => (float)CurrentHealth / _maxHealth;
@@ -27,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public float StaminaPercentage => (float)CurrentStamina / _maxStamina;
     [field: SerializeField] public int CurrentHealth { get; private set; }
     [field: SerializeField] public int CurrentStamina { get; private set; }
+
+    private int _lives = 2;
 
     //public int Test
     //{
@@ -75,6 +80,10 @@ public class PlayerController : MonoBehaviour
         _lastFacedDirection = isPlayer1 ? 1 : -1;
     }
 
+    private void Start()
+    {
+        StartCoroutine(nameof(RecoverStaminaRoutine));
+    }
     private void OnEnable()
     {
         if (isPlayer1)
@@ -187,17 +196,43 @@ public class PlayerController : MonoBehaviour
     private void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
+        if (CurrentHealth <= 0)
+        {
+            Death();
+        }
+        else
+        {
+            _animator.SetTrigger("hurt");
+        }
         //PlayerTookDamage.Invoke(this);
     }
 
-    private void RecoverStamina()
+    private void Death()
     {
+        _spriteRenderer.enabled = false;
+        _lives -= 1;
+    }
 
+    private IEnumerator RecoverStaminaRoutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (CurrentStamina >= _maxStamina)
+        {
+            CurrentStamina = _maxStamina;
+        }
+        else
+        {
+            CurrentStamina += 5;
+        }
     }
 
     private void DrainStamina(int stamina)
     {
         CurrentStamina -= stamina;
+        if (CurrentStamina <= 0)
+        {
+            CurrentStamina = 0;
+        }
     }
 
     private void HandleInput()
@@ -210,6 +245,7 @@ public class PlayerController : MonoBehaviour
         if (!_canAttack) return;
 
         _canAttack = false;
+        DrainStamina(10);
         _animator.SetTrigger("attack");
         StartCoroutine(nameof(AttackCooldownRoutine));
     }
