@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private readonly int _staminaAttackDrain = 10;
     [SerializeField] private readonly int _staminaJumpDrain = 10;
 
-    public VisualEffect _hitEffect;
+    public VisualEffect _hitVFX;
 
     private readonly int _maxHealth = 100;
     public int MaxHealth => _maxHealth;
@@ -54,19 +54,18 @@ public class PlayerController : MonoBehaviour
 
 
     #region INPUTS
-    public PlayerInputActions playerControls;
-    public InputAction move;
-    public InputAction attack;
-    public InputAction jump;
-    public InputAction dash;
+    private PlayerInputActions playerControls;
+    private InputAction move;
+    private InputAction attack;
+    private InputAction jump;
+    private InputAction dash;
     #endregion
 
     public GameObject rightHitbox;
     public GameObject leftHitbox;
 
-    public bool isPlayer1 = true;
+    [SerializeField] private bool isPlayer1 = true;
 
-    public UnityEvent<PlayerController> PlayerTookDamage;
     public UnityEvent<PlayerController> PlayerDied;
 
 
@@ -347,5 +346,10 @@ public class PlayerController : MonoBehaviour
     private void DeactivateControls()
     {
         playerControls.Disable();
+    }
+
+    public void PlayHitVFX()
+    {
+        _hitVFX.Play();
     }
 }
