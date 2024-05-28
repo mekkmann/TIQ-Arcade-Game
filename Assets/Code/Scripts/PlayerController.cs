@@ -211,17 +211,9 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        _livesRemaining -= 1;
-        if (_livesRemaining > 1)
-        {
-            _spriteRenderer.enabled = false;
-            Debug.Log("Lives remaining: " + _livesRemaining);
-        }
-        else
-        {
-            string winner = isPlayer1 ? "Player 1" : "Player 2";
-            Debug.Log(winner + " wins!");
-        }
+        // CHANGE BACK TO 1
+        _livesRemaining -= 2;
+        _spriteRenderer.enabled = false;
         PlayerDied.Invoke(this);
     }
 
