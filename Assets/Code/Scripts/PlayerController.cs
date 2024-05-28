@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool _canAttack = true;
     [SerializeField] private readonly int _staminaAttackDrain = 10;
     [SerializeField] private readonly int _staminaJumpDrain = 10;
+    [SerializeField] private readonly int _staminaDashDrain = 15;
 
     public VisualEffect _hitVFX;
 
@@ -357,17 +358,15 @@ public class PlayerController : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext callbackContext)
     {
-
-        Debug.Log("Fast");
+        if (CurrentStamina < _staminaDashDrain) return;
         StartCoroutine(nameof(DashRoutine));
-        Debug.Log("Not Fast");
     }
 
     private IEnumerator DashRoutine()
     {
         _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
         _currentMoveSpeed = dashSpeed;
-        DrainStamina(15);
+        DrainStamina(_staminaDashDrain);
         _collisionCollider.enabled = false;
         yield return new WaitForSeconds(0.125f);
         _rigidbody.constraints = RigidbodyConstraints2D.None;
