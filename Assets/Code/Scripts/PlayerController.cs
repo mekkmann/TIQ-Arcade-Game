@@ -68,7 +68,15 @@ public class PlayerController : MonoBehaviour
 
     public UnityEvent<PlayerController> PlayerDied;
 
+    #region COYOTE TIME
+    private float _coyoteTime = 0.2f;
+    private float _coyoteTimeCounter;
+    #endregion
 
+    #region JUMP BUFFERING
+    private float _jumpBufferTime = 0.2f;
+    private float _jumpBufferTimeCounter;
+    #endregion
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -135,12 +143,34 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleInput();
+        if (_isGrounded)
+        {
+            _coyoteTimeCounter = _coyoteTime;
+        }
+        else
+        {
+            _coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        _jumpBufferTimeCounter -= Time.deltaTime;
+
+        if (_canJump && CurrentStamina >= _staminaJumpDrain && _coyoteTimeCounter > 0f && _jumpBufferTimeCounter > 0f)
+        {
+            _canJump = false;
+            _coyoteTimeCounter = 0f;
+            _jumpBufferTimeCounter = 0f;
+            DrainStamina(_staminaJumpDrain);
+            _animator.SetTrigger("jump");
+            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
     }
 
     private void FixedUpdate()
     {
         HandleDirection();
         ClampYVelocity();
+
+
 
         _animator.SetFloat("yVelocity", _rigidbody.velocity.y);
     }
@@ -308,12 +338,14 @@ public class PlayerController : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext callbackContext)
     {
-        if (!_canJump || CurrentStamina < _staminaJumpDrain) return;
+        _jumpBufferTimeCounter = _jumpBufferTime;
+        //if (!_canJump || CurrentStamina < _staminaJumpDrain || _coyoteTimeCounter <= 0f || _jumpBufferTimeCounter <= 0f) return;
 
-        _canJump = false;
-        DrainStamina(_staminaJumpDrain);
-        _animator.SetTrigger("jump");
-        _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //_canJump = false;
+        //_coyoteTimeCounter = 0f;
+        //DrainStamina(_staminaJumpDrain);
+        //_animator.SetTrigger("jump");
+        //_rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
     private void ClampYVelocity()
     {
