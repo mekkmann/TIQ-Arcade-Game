@@ -49,7 +49,9 @@ public class PlayerController : MonoBehaviour
     //    }
     //}
 
+    private float _currentMoveSpeed;
     public float moveSpeed = 1f; //PUT THIS IN SCRIPTABLESTATS
+    public float dashSpeed = 4f; //PUT THIS IN SCRIPTABLESTATS
     public float jumpForce = 1f; //PUT THIS IN SCRIPTABLESTATS
 
 
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
         CurrentHealth = _maxHealth;
         CurrentStamina = _maxStamina;
         _lastFacedDirection = isPlayer1 ? 1 : -1;
+        _currentMoveSpeed = moveSpeed;
     }
 
     private void Start()
@@ -177,7 +180,7 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDirection()
     {
-        _rigidbody.velocity = new Vector2(_moveDirection.x * moveSpeed, _rigidbody.velocity.y);
+        _rigidbody.velocity = new Vector2(_moveDirection.x * _currentMoveSpeed, _rigidbody.velocity.y);
         if (_rigidbody.velocity.sqrMagnitude > 0)
         {
             if (_rigidbody.velocity.x < 0)
@@ -354,7 +357,23 @@ public class PlayerController : MonoBehaviour
 
     private void Dash(InputAction.CallbackContext callbackContext)
     {
-        Debug.Log("Dashing");
+
+        Debug.Log("Fast");
+        StartCoroutine(nameof(DashRoutine));
+        Debug.Log("Not Fast");
+    }
+
+    private IEnumerator DashRoutine()
+    {
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+        _currentMoveSpeed = dashSpeed;
+        DrainStamina(15);
+        _collisionCollider.enabled = false;
+        yield return new WaitForSeconds(0.125f);
+        _rigidbody.constraints = RigidbodyConstraints2D.None;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _collisionCollider.enabled = true;
+        _currentMoveSpeed = moveSpeed;
     }
 
     public void SpawnAt(Transform transform)
