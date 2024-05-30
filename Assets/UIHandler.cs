@@ -19,11 +19,11 @@ public class UIHandler : MonoBehaviour
         _staminaBar.value = _staminaBar.maxValue;
         if (isPlayer1)
         {
-            _player = GameObject.Find("PlayerPrefab").GetComponent<PlayerController>();
+            _player = PlayerManager.player1;
         }
         else
         {
-            _player = GameObject.Find("PlayerPrefab (1)").GetComponent<PlayerController>();
+            _player = PlayerManager.player2;
         }
     }
 
