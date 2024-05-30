@@ -224,7 +224,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerAttack"))
         {
-            Debug.Log("hit someone");
             TakeDamage(10);
         }
     }
@@ -244,7 +243,6 @@ public class PlayerController : MonoBehaviour
 
     private void Death()
     {
-        // CHANGE BACK TO 1
         _livesRemaining -= 1;
         _spriteRenderer.enabled = false;
         PlayerDied.Invoke(this);
@@ -300,7 +298,6 @@ public class PlayerController : MonoBehaviour
             else
             {
                 CurrentStamina += 1;
-                Debug.Log(CurrentStamina);
             }
         }
     }
@@ -308,7 +305,6 @@ public class PlayerController : MonoBehaviour
     private void DrainStamina(int stamina)
     {
         CurrentStamina -= stamina;
-        Debug.Log(CurrentStamina);
         if (CurrentStamina <= 0)
         {
             CurrentStamina = 0;
@@ -364,13 +360,6 @@ public class PlayerController : MonoBehaviour
     private void Jump(InputAction.CallbackContext callbackContext)
     {
         _jumpBufferTimeCounter = _jumpBufferTime;
-        //if (!_canJump || CurrentStamina < _staminaJumpDrain || _coyoteTimeCounter <= 0f || _jumpBufferTimeCounter <= 0f) return;
-
-        //_canJump = false;
-        //_coyoteTimeCounter = 0f;
-        //DrainStamina(_staminaJumpDrain);
-        //_animator.SetTrigger("jump");
-        //_rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }
     private void ClampYVelocity()
     {

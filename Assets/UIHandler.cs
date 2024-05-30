@@ -32,7 +32,6 @@ public class UIHandler : MonoBehaviour
     {
         if (_player == null)
         {
-            Debug.Log("tf");
             return;
         }
 
