@@ -10,18 +10,34 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController _player2;
     [SerializeField] private Transform _player2SpawnPoint;
     [SerializeField] private TextMeshProUGUI _winnerText;
+    [SerializeField] private TextMeshProUGUI _restartText;
     [SerializeField] private Light2D _light2D;
+    [SerializeField] private UIHandler _player1UIHandler;
+    [SerializeField] private UIHandler _player2UIHandler;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         StartRound();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RestartGame();
+        }
+    }
 
+    private void RestartGame()
+    {
+        _player1.SpawnAt(_player1SpawnPoint);
+        _player2.SpawnAt(_player2SpawnPoint);
+        _player1.GameReset();
+        _player2.GameReset();
+        _player1UIHandler.ResetHearts();
+        _player2UIHandler.ResetHearts();
+        _winnerText.enabled = false;
+        _restartText.enabled = false;
     }
 
     public void StartRound()
@@ -30,7 +46,6 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Shouldnt see this");
         _player1.SpawnAt(_player1SpawnPoint);
         _player2.SpawnAt(_player2SpawnPoint);
         _player1.RoundReset();
@@ -57,6 +72,7 @@ public class GameManager : MonoBehaviour
     {
         _winnerText.SetText(winner + " wins!");
         _winnerText.gameObject.SetActive(true);
+        _restartText.gameObject.SetActive(true);
     }
 
     private IEnumerator GlobalLightRoutine()

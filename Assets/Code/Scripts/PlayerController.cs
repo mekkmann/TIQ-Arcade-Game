@@ -240,13 +240,12 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetTrigger("hurt");
         }
-        //PlayerTookDamage.Invoke(this);
     }
 
     private void Death()
     {
         // CHANGE BACK TO 1
-        _livesRemaining -= 2;
+        _livesRemaining -= 1;
         _spriteRenderer.enabled = false;
         PlayerDied.Invoke(this);
     }
@@ -267,6 +266,28 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(nameof(RecoverStaminaRoutine));
     }
 
+    public void GameReset()
+    {
+        DeactivateControls();
+        StopCoroutine(nameof(RecoverStaminaRoutine));
+        _spriteRenderer.enabled = false;
+        StartCoroutine(nameof(GameResetRoutine));
+    }
+    private IEnumerator GameResetRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        CurrentHealth = MaxHealth;
+        CurrentStamina = MaxStamina;
+        _spriteRenderer.enabled = true;
+        ResetLives();
+        ActivateControls();
+        StartCoroutine(nameof(RecoverStaminaRoutine));
+    }
+
+    private void ResetLives()
+    {
+        _livesRemaining = 2;
+    }
     private IEnumerator RecoverStaminaRoutine()
     {
         while (true)

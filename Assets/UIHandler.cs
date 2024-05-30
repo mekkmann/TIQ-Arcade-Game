@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,11 +19,11 @@ public class UIHandler : MonoBehaviour
         _staminaBar.value = _staminaBar.maxValue;
         if (isPlayer1)
         {
-            _player = PlayerManager.player1;
+            _player = GameObject.Find("PlayerPrefab").GetComponent<PlayerController>();
         }
         else
         {
-            _player = PlayerManager.player2;
+            _player = GameObject.Find("PlayerPrefab (1)").GetComponent<PlayerController>();
         }
     }
 
@@ -31,6 +32,7 @@ public class UIHandler : MonoBehaviour
     {
         if (_player == null)
         {
+            Debug.Log("tf");
             return;
         }
 
@@ -47,19 +49,24 @@ public class UIHandler : MonoBehaviour
         switch (_player.LivesRemaining)
         {
             case 0:
-                _heart1.enabled = false;
+                _heart2.enabled = false;
                 break;
             case 1:
-                _heart2.enabled = false;
+                _heart1.enabled = false;
                 break;
         }
 
     }
-
-    private void LoseHeartAndPlayVFX(int heart)
+    public void ResetHearts()
     {
+        StartCoroutine(nameof(ResetHeartsRoutine));
+    }
 
-        _heart1.GetComponent<SpriteRenderer>().enabled = false;
+    private IEnumerator ResetHeartsRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        _heart1.enabled = true;
+        _heart2.enabled = true;
     }
 }
 
