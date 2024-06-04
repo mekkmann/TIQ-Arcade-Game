@@ -18,8 +18,7 @@ public class PlayerController : MonoBehaviour
     private float _lastFacedDirection;
     [SerializeField, Range(0f, 2f)] private float _attackCooldown;
     private bool _canAttack = true;
-    [SerializeField] private readonly int _staminaAttackDrain = 10;
-    [SerializeField] private readonly int _staminaJumpDrain = 10;
+    [SerializeField] private readonly int _staminaAttackDrain = 20;
     [SerializeField] private readonly int _staminaDashDrain = 15;
 
     public VisualEffect _hitVFX;
@@ -70,6 +69,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isPlayer1 = true;
 
     public UnityEvent<PlayerController> PlayerDied;
+
+    private float _attackDirection;
 
     #region COYOTE TIME
     private float _coyoteTime = 0.2f;
@@ -158,12 +159,11 @@ public class PlayerController : MonoBehaviour
 
         _jumpBufferTimeCounter -= Time.deltaTime;
 
-        if (_canJump && CurrentStamina >= _staminaJumpDrain && _coyoteTimeCounter > 0f && _jumpBufferTimeCounter > 0f)
+        if (_canJump && _coyoteTimeCounter > 0f && _jumpBufferTimeCounter > 0f)
         {
             _canJump = false;
             _coyoteTimeCounter = 0f;
             _jumpBufferTimeCounter = 0f;
-            DrainStamina(_staminaJumpDrain);
             _animator.SetTrigger("jump");
             _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
@@ -278,8 +278,15 @@ public class PlayerController : MonoBehaviour
         CurrentStamina = MaxStamina;
         _spriteRenderer.enabled = true;
         ResetLives();
+        ResetHitboxes();
         ActivateControls();
         StartCoroutine(nameof(RecoverStaminaRoutine));
+    }
+
+    public void ResetHitboxes()
+    {
+        rightHitbox.SetActive(false);
+        leftHitbox.SetActive(false);
     }
 
     private void ResetLives()
@@ -322,8 +329,8 @@ public class PlayerController : MonoBehaviour
         if (!_canAttack || CurrentStamina < _staminaAttackDrain) return;
 
         _canAttack = false;
-        DrainStamina(_staminaAttackDrain);
         _animator.SetTrigger("attack");
+        DrainStamina(_staminaAttackDrain);
         StartCoroutine(nameof(AttackCooldownRoutine));
     }
 
@@ -335,7 +342,8 @@ public class PlayerController : MonoBehaviour
 
     public void ActivateAttackHitbox()
     {
-        if (_lastFacedDirection == -1)
+        _attackDirection = _lastFacedDirection;
+        if (_attackDirection == -1)
         {
             leftHitbox.SetActive(true);
         }
@@ -347,7 +355,7 @@ public class PlayerController : MonoBehaviour
 
     public void DeactivateAttackHitbox()
     {
-        if (_lastFacedDirection == -1)
+        if (_attackDirection == -1)
         {
             leftHitbox.SetActive(false);
         }
