@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private readonly int _staminaDashDrain = 15;
 
     public VisualEffect _hitVFX;
+    public VisualEffect _dashVFX;
 
     private readonly int _maxHealth = 100;
     public int MaxHealth => _maxHealth;
@@ -95,6 +96,7 @@ public class PlayerController : MonoBehaviour
         CurrentStamina = _maxStamina;
         _lastFacedDirection = isPlayer1 ? 1 : -1;
         _currentMoveSpeed = moveSpeed;
+        _dashVFX.Stop();
     }
 
     private void Start()
@@ -385,11 +387,13 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DashRoutine()
     {
+        _dashVFX.Play();
         _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
         _currentMoveSpeed = dashSpeed;
         DrainStamina(_staminaDashDrain);
         _hurtboxCollider.enabled = false;
         yield return new WaitForSeconds(0.125f);
+        _dashVFX.Stop();
         _rigidbody.constraints = RigidbodyConstraints2D.None;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _hurtboxCollider.enabled = true;
