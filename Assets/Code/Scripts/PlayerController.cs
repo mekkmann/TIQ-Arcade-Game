@@ -167,6 +167,7 @@ public class PlayerController : MonoBehaviour
             _coyoteTimeCounter = 0f;
             _jumpBufferTimeCounter = 0f;
             _animator.SetTrigger("jump");
+            HandleDirection();
             _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
@@ -184,14 +185,14 @@ public class PlayerController : MonoBehaviour
     private void HandleDirection()
     {
         _rigidbody.velocity = new Vector2(_moveDirection.x * _currentMoveSpeed, _rigidbody.velocity.y);
-        if (_rigidbody.velocity.sqrMagnitude > 0)
+        if (_rigidbody.velocity.magnitude > 0)
         {
             if (_rigidbody.velocity.x < 0)
             {
                 _spriteRenderer.flipX = true;
                 _lastFacedDirection = -1;
             }
-            else
+            else if (_rigidbody.velocity.x > 0)
             {
                 _spriteRenderer.flipX = false;
                 _lastFacedDirection = 1;
