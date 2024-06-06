@@ -9,7 +9,8 @@ using UnityEngine.VFX;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
-    private CapsuleCollider2D _collisionCollider;
+    private CapsuleCollider2D _hurtboxCollider;
+    private BoxCollider2D _collisionCollider;
     private Vector2 _moveDirection;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
@@ -84,7 +85,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _collisionCollider = GetComponent<CapsuleCollider2D>();
+        _hurtboxCollider = GetComponent<CapsuleCollider2D>();
+        _collisionCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         playerControls = new PlayerInputActions();
@@ -385,11 +387,11 @@ public class PlayerController : MonoBehaviour
         _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
         _currentMoveSpeed = dashSpeed;
         DrainStamina(_staminaDashDrain);
-        _collisionCollider.enabled = false;
+        _hurtboxCollider.enabled = false;
         yield return new WaitForSeconds(0.125f);
         _rigidbody.constraints = RigidbodyConstraints2D.None;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _collisionCollider.enabled = true;
+        _hurtboxCollider.enabled = true;
         _currentMoveSpeed = moveSpeed;
     }
 
