@@ -471,10 +471,12 @@ public class PlayerController : MonoBehaviour
         if (_otherPlayer.transform.position.x < transform.position.x)
         {
             Debug.Log("left side to the right");
+            _hitVFX.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         }
         else if (_otherPlayer.transform.position.x > transform.position.x)
         {
             Debug.Log("right side to the left");
+            _hitVFX.transform.rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
         }
         _hitVFX.Play();
     }
