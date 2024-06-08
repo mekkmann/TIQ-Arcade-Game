@@ -786,7 +786,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2968658381909283337, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
       propertyPath: m_Name
-      value: PlayerPrefab
+      value: Player1
       objectReference: {fileID: 0}
     - target: {fileID: 4895489551918383287, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
       propertyPath: PlayerDied.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5509,7 +5509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8471264105675454356, guid: 912802c24ec49f048a3e7f35b4093c2d, type: 3}
       propertyPath: m_Name
-      value: PlayerPrefab (1)
+      value: Player2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

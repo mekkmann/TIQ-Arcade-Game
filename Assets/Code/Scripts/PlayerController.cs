@@ -50,7 +50,8 @@ public class PlayerController : MonoBehaviour
 
     //    }
     //}
-
+    private PlayerController _otherPlayer;
+    private string _playerToSearchFor;
     private float _currentMoveSpeed;
     public float moveSpeed = 1f; //PUT THIS IN SCRIPTABLESTATS
     public float dashSpeed = 4f; //PUT THIS IN SCRIPTABLESTATS
@@ -83,6 +84,13 @@ public class PlayerController : MonoBehaviour
     private float _jumpBufferTime = 0.2f;
     private float _jumpBufferTimeCounter;
     #endregion
+
+    #region BETTER JUMP
+    private bool _jump = false;
+    private bool _jumpHeld = false;
+    [Range(0, 5f)][SerializeField] private float fallLongMultiplier = 0.85f;
+    [Range(0, 5f)][SerializeField] private float fallShortMultiplier = 1.55f;
+    #endregion
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -102,6 +110,24 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(nameof(RecoverStaminaRoutine));
+        TryGetOtherPlayer();
+    }
+
+    private void TryGetOtherPlayer()
+    {
+        if (_otherPlayer != null) return;
+
+        _playerToSearchFor = isPlayer1 ? "Player2" : "Player1";
+        try
+        {
+            _otherPlayer = GameObject.Find(_playerToSearchFor).GetComponent<PlayerController>();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+
+        TryGetOtherPlayer();
     }
     private void OnEnable()
     {
@@ -163,15 +189,7 @@ public class PlayerController : MonoBehaviour
 
         _jumpBufferTimeCounter -= Time.deltaTime;
 
-        if (_canJump && _coyoteTimeCounter > 0f && _jumpBufferTimeCounter > 0f)
-        {
-            _canJump = false;
-            _coyoteTimeCounter = 0f;
-            _jumpBufferTimeCounter = 0f;
-            _animator.SetTrigger("jump");
-            HandleDirection();
-            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
+
     }
 
     private void FixedUpdate()
@@ -179,9 +197,38 @@ public class PlayerController : MonoBehaviour
         HandleDirection();
         ClampYVelocity();
 
-
-
         _animator.SetFloat("yVelocity", _rigidbody.velocity.y);
+
+        //// jump
+        //if (_canJump && _coyoteTimeCounter > 0f && _jumpBufferTimeCounter > 0f)
+        //{
+        //    _canJump = false;
+        //    _coyoteTimeCounter = 0f;
+        //    _jumpBufferTimeCounter = 0f;
+        //    _animator.SetTrigger("jump");
+        //    _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        //}
+
+        // test jump
+        if (_canJump && _coyoteTimeCounter > 0f && _jumpBufferTimeCounter > 0f)
+        {
+            _canJump = false;
+            _coyoteTimeCounter = 0f;
+            _jumpBufferTimeCounter = 0f;
+            _isGrounded = false;
+            _animator.SetTrigger("jump");
+            _rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+        // long jump
+        if (_jumpHeld && _rigidbody.velocity.y > 0)
+        {
+            _rigidbody.velocity += (fallLongMultiplier - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
+        }
+        // short jump
+        else if (!_jumpHeld && _rigidbody.velocity.y > 0)
+        {
+            _rigidbody.velocity += (fallShortMultiplier - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
+        }
     }
 
     private void HandleDirection()
@@ -229,6 +276,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerAttack"))
         {
+
             TakeDamage(10);
         }
     }
@@ -333,6 +381,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_canAttack || CurrentStamina < _staminaAttackDrain) return;
 
+
         _canAttack = false;
         _animator.SetTrigger("attack");
         DrainStamina(_staminaAttackDrain);
@@ -387,16 +436,18 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DashRoutine()
     {
+        _animator.SetBool("isDashing", true);
         _dashVFX.Play();
         _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
         _currentMoveSpeed = dashSpeed;
         DrainStamina(_staminaDashDrain);
         _hurtboxCollider.enabled = false;
         yield return new WaitForSeconds(0.125f);
-        _dashVFX.Stop();
+        _hurtboxCollider.enabled = true;
         _rigidbody.constraints = RigidbodyConstraints2D.None;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _hurtboxCollider.enabled = true;
+        _animator.SetBool("isDashing", false);
+        _dashVFX.Stop();
         _currentMoveSpeed = moveSpeed;
     }
 
@@ -417,6 +468,14 @@ public class PlayerController : MonoBehaviour
 
     public void PlayHitVFX()
     {
+        if (_otherPlayer.transform.position.x < transform.position.x)
+        {
+            Debug.Log("left side to the right");
+        }
+        else if (_otherPlayer.transform.position.x > transform.position.x)
+        {
+            Debug.Log("right side to the left");
+        }
         _hitVFX.Play();
     }
 }
