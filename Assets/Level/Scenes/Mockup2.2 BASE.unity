@@ -788,6 +788,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player1
       objectReference: {fileID: 0}
+    - target: {fileID: 4849724062326902904, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: d46e02e89f6461442b39e554e2366b38, type: 2}
     - target: {fileID: 4895489551918383287, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
       propertyPath: PlayerDied.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

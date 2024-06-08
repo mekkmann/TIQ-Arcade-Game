@@ -438,13 +438,12 @@ public class PlayerController : MonoBehaviour
     {
         _animator.SetBool("isDashing", true);
         _dashVFX.Play();
-        _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+        _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         _currentMoveSpeed = dashSpeed;
         DrainStamina(_staminaDashDrain);
         _hurtboxCollider.enabled = false;
         yield return new WaitForSeconds(0.125f);
         _hurtboxCollider.enabled = true;
-        _rigidbody.constraints = RigidbodyConstraints2D.None;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _animator.SetBool("isDashing", false);
         _dashVFX.Stop();
@@ -470,12 +469,10 @@ public class PlayerController : MonoBehaviour
     {
         if (_otherPlayer.transform.position.x < transform.position.x)
         {
-            Debug.Log("left side to the right");
             _hitVFX.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         }
         else if (_otherPlayer.transform.position.x > transform.position.x)
         {
-            Debug.Log("right side to the left");
             _hitVFX.transform.rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
         }
         _hitVFX.Play();
