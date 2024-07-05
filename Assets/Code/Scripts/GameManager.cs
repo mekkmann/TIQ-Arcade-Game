@@ -2,9 +2,14 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+
+public class GameManager : TransientSingleton<GameManager>
 {
+    const int MAINMENU_INDEX = 0;
+    const int ARENA_INDEX = 1;
+
     [SerializeField] private PlayerController _player1;
     [SerializeField] private Transform _player1SpawnPoint;
     [SerializeField] private PlayerController _player2;
@@ -15,73 +20,96 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIHandler _player1UIHandler;
     [SerializeField] private UIHandler _player2UIHandler;
 
+    [SerializeField] private GameObject _pauseUI;
+
     void Start()
     {
-        StartRound();
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RestartGame();
+            Debug.Log("Should restart game");
         }
-    }
-
-    private void RestartGame()
-    {
-        _player1.SpawnAt(_player1SpawnPoint);
-        _player2.SpawnAt(_player2SpawnPoint);
-        _player1.GameReset();
-        _player2.GameReset();
-        _player1UIHandler.ResetHearts();
-        _player2UIHandler.ResetHearts();
-        _winnerText.enabled = false;
-        _restartText.enabled = false;
-    }
-
-    public void StartRound()
-    {
-        if (CheckIfPlayerHasWon())
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            return;
+            HandlePauseMenu();
         }
-        _player1.SpawnAt(_player1SpawnPoint);
-        _player2.SpawnAt(_player2SpawnPoint);
-        _player1.RoundReset();
-        _player2.RoundReset();
     }
 
-    public bool CheckIfPlayerHasWon()
+    public void LoadArena()
     {
-        if (_player1.LivesRemaining == 0)
-        {
-            ShowWinner("Player 2");
-            return true;
-        }
-        else if (_player2.LivesRemaining == 0)
-        {
-            ShowWinner("Player 1");
-            return true;
-        }
-
-        return false;
+        SceneManager.LoadScene(ARENA_INDEX);
     }
-
-    private void ShowWinner(string winner)
+    public void LoadMainMenu()
     {
-        _winnerText.SetText(winner + " wins!");
-        _winnerText.gameObject.SetActive(true);
-        _restartText.gameObject.SetActive(true);
+        SceneManager.LoadScene(MAINMENU_INDEX);
     }
-
-    private IEnumerator GlobalLightRoutine()
+    private void HandlePauseMenu()
     {
-        while (_light2D.intensity < 500)
+        if (_pauseUI != null)
         {
-            _light2D.intensity++;
-            yield return new WaitForSeconds(0.1f);
-
+            _pauseUI.SetActive(true);
+        } else
+        {
+            _pauseUI = GameObject.Find("Pause_UI");
         }
     }
+    //private void RestartGame()
+    //{
+    //    _player1.SpawnAt(_player1SpawnPoint);
+    //    _player2.SpawnAt(_player2SpawnPoint);
+    //    _player1.GameReset();
+    //    _player2.GameReset();
+    //    _player1UIHandler.ResetHearts();
+    //    _player2UIHandler.ResetHearts();
+    //    _winnerText.enabled = false;
+    //    _restartText.enabled = false;
+    //}
+
+    //public void StartRound()
+    //{
+    //    if (CheckIfPlayerHasWon())
+    //    {
+    //        return;
+    //    }
+    //    _player1.SpawnAt(_player1SpawnPoint);
+    //    _player2.SpawnAt(_player2SpawnPoint);
+    //    _player1.RoundReset();
+    //    _player2.RoundReset();
+    //}
+
+    //public bool CheckIfPlayerHasWon()
+    //{
+    //    if (_player1.LivesRemaining == 0)
+    //    {
+    //        ShowWinner("Player 2");
+    //        return true;
+    //    }
+    //    else if (_player2.LivesRemaining == 0)
+    //    {
+    //        ShowWinner("Player 1");
+    //        return true;
+    //    }
+
+    //    return false;
+    //}
+
+    //private void ShowWinner(string winner)
+    //{
+    //    _winnerText.SetText(winner + " wins!");
+    //    _winnerText.gameObject.SetActive(true);
+    //    _restartText.gameObject.SetActive(true);
+    //}
+
+    //private IEnumerator GlobalLightRoutine()
+    //{
+    //    while (_light2D.intensity < 500)
+    //    {
+    //        _light2D.intensity++;
+    //        yield return new WaitForSeconds(0.1f);
+
+    //    }
+    //}
 }
