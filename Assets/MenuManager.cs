@@ -26,6 +26,7 @@ public class MenuManager : MonoBehaviour
         DontDestroyOnLoad(this);
 
         _mainMenuUI = GameObject.Find("MainMenu");
+        _mainMenuUI.SetActive(true);
         _settingsMenuUI = GameObject.Find("SettingsMenu");
         _settingsMenuUI.SetActive(false);
     }
