@@ -33,18 +33,33 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    public void LoadSceneByIndex(int index)
+    public void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
+    }
+    public void LoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 
     public void LoadGameScene()
     {
-        LoadSceneByIndex(GAMEINDEX);
+        LoadScene(GAMEINDEX);
     }
 
     public void LoadMainMenu()
     {
-        LoadSceneByIndex(MAINMENUINDEX);
+        LoadScene(MAINMENUINDEX);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ToggleSound()
+    {
+        AudioListener.pause = !AudioListener.pause;
+        Debug.Log($"AudioListener is paused: [{AudioListener.pause}]");
     }
 }
