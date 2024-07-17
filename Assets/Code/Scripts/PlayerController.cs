@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
     private readonly int _maxStamina = 100;
     public int MaxStamina => _maxStamina;
     public float StaminaPercentage => (float)CurrentStamina / _maxStamina;
-    [field: SerializeField] public int CurrentHealth { get; private set; }
-    [field: SerializeField] public int CurrentStamina { get; private set; }
+    [SerializeField] public int CurrentHealth { get; private set; }
+    [SerializeField] public int CurrentStamina { get; private set; }
 
     private int _livesRemaining = 2;
     public int LivesRemaining => _livesRemaining;
@@ -346,6 +346,7 @@ public class PlayerController : MonoBehaviour
     {
         _livesRemaining = 2;
     }
+
     private IEnumerator RecoverStaminaRoutine()
     {
         while (true)
@@ -368,7 +369,6 @@ public class PlayerController : MonoBehaviour
         if (CurrentStamina <= 0)
         {
             CurrentStamina = 0;
-
         }
     }
 
