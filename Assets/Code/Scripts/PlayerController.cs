@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     private string _playerToSearchFor;
     private float _currentMoveSpeed;
     public float moveSpeed = 1f; //PUT THIS IN SCRIPTABLESTATS
-    public float dashSpeed = 4f; //PUT THIS IN SCRIPTABLESTATS
+    public float dashSpeed = 3f; //PUT THIS IN SCRIPTABLESTATS
     public float jumpForce = 1f; //PUT THIS IN SCRIPTABLESTATS
 
 
@@ -443,7 +443,7 @@ public class PlayerController : MonoBehaviour
         _currentMoveSpeed = dashSpeed;
         DrainStamina(_staminaDashDrain);
         _hurtboxCollider.enabled = false;
-        yield return new WaitForSeconds(0.125f);
+        yield return new WaitForSeconds(0.2f);
         _hurtboxCollider.enabled = true;
         _rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         _animator.SetBool("isDashing", false);
