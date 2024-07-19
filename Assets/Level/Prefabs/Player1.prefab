@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 746285262818012921}
   m_Layer: 6
   m_Name: Player1
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,8 +190,6 @@ MonoBehaviour:
   _attackCooldown: 0.5
   _hitVFX: {fileID: 9157218467368832191}
   _dashVFX: {fileID: 4751086604435644171}
-  <CurrentHealth>k__BackingField: 0
-  <CurrentStamina>k__BackingField: 0
   moveSpeed: 1
   dashSpeed: 4
   jumpForce: 3.7
@@ -201,9 +199,9 @@ MonoBehaviour:
   PlayerDied:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: StartRound
+      - m_Target: {fileID: 4895489551918383287}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: Death
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

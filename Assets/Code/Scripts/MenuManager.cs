@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,6 +12,12 @@ public class MenuManager : MonoBehaviour
 
     private GameObject _mainMenuUI;
     private GameObject _settingsMenuUI;
+
+    [SerializeField] private AudioSource _centerAudioSource;
+
+    [SerializeField] private Slider _volumeSlider;
+    [SerializeField] private Image _muteImage;
+
     private void Awake()
     {
         if (instance == null)
@@ -29,6 +35,7 @@ public class MenuManager : MonoBehaviour
         _mainMenuUI.SetActive(true);
         _settingsMenuUI = GameObject.Find("SettingsMenu");
         _settingsMenuUI.SetActive(false);
+        _volumeSlider.onValueChanged.AddListener(HandleVolumeChange);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,6 +75,38 @@ public class MenuManager : MonoBehaviour
         _settingsMenuUI.SetActive(!_settingsMenuUI.activeSelf);
     }
 
+    public void HandleMute()
+    {
+        if (!_centerAudioSource.isPlaying)
+        {
+            _centerAudioSource.Play();
+            _muteImage.enabled = true;
+        }
+        else
+        {
+            _centerAudioSource.Stop();
+            _muteImage.enabled = false;
+        }
+        Debug.Log($"audioSource is stopped: [{_centerAudioSource.isPlaying} and then we have the image, is it showing: {_muteImage.enabled}]");
+
+    }
+
+    public void HandleVolumeChange(float newVolume)
+    {
+        if (newVolume < 0f || newVolume > 100f)
+        {
+            return;
+        }
+
+        _centerAudioSource.volume = newVolume;
+
+        if (!_centerAudioSource.isPlaying)
+        {
+            _centerAudioSource.Play();
+        }
+
+        Debug.Log(_centerAudioSource.volume);
+    }
     public void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
@@ -96,5 +135,6 @@ public class MenuManager : MonoBehaviour
     {
         AudioListener.pause = !AudioListener.pause;
         Debug.Log($"AudioListener is paused: [{AudioListener.pause}]");
+        HandleMute();
     }
 }

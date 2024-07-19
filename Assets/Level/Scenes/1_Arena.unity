@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 36298163}
   - component: {fileID: 36298162}
+  - component: {fileID: 36298164}
   m_Layer: 0
   m_Name: MidRightCandleLight
   m_TagString: Untagged
@@ -204,6 +205,20 @@ Transform:
   - {fileID: 612978677}
   m_Father: {fileID: 163508092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &36298164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36298161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bb33c5ddde91346a70aad29edd17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 36298162}
+  isTorch: 0
 --- !u!1 &109158524
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +642,8 @@ GameObject:
   m_Component:
   - component: {fileID: 193063313}
   - component: {fileID: 193063314}
+  - component: {fileID: 193063315}
+  - component: {fileID: 193063316}
   m_Layer: 8
   m_Name: LeftCollider
   m_TagString: Platform
@@ -680,7 +697,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
@@ -695,6 +712,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &193063315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193063312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc9da80c6a17414c8608aef4f0dc856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!251 &193063316
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193063312}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &265419589
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +843,8 @@ GameObject:
   m_Component:
   - component: {fileID: 298479916}
   - component: {fileID: 298479917}
+  - component: {fileID: 298479918}
+  - component: {fileID: 298479919}
   m_Layer: 8
   m_Name: CenterCollider
   m_TagString: Platform
@@ -848,7 +898,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
@@ -863,6 +913,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &298479918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298479915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc9da80c6a17414c8608aef4f0dc856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!251 &298479919
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298479915}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &310587597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,10 +1253,6 @@ PrefabInstance:
     - target: {fileID: 3121301248099786689, guid: 912802c24ec49f048a3e7f35b4093c2d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5939588191950867306, guid: 912802c24ec49f048a3e7f35b4093c2d, type: 3}
-      propertyPath: m_FlipX
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8471264105675454356, guid: 912802c24ec49f048a3e7f35b4093c2d, type: 3}
       propertyPath: m_Name
@@ -1513,6 +1590,7 @@ GameObject:
   m_Component:
   - component: {fileID: 551346430}
   - component: {fileID: 551346429}
+  - component: {fileID: 551346431}
   m_Layer: 0
   m_Name: LeftCandleLight
   m_TagString: Untagged
@@ -1588,6 +1666,20 @@ Transform:
   - {fileID: 793051641}
   m_Father: {fileID: 163508092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &551346431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551346428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bb33c5ddde91346a70aad29edd17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 551346429}
+  isTorch: 0
 --- !u!1 &553126311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1639,6 +1731,7 @@ GameObject:
   m_Component:
   - component: {fileID: 557263817}
   - component: {fileID: 557263816}
+  - component: {fileID: 557263818}
   m_Layer: 0
   m_Name: RightTorchLight
   m_TagString: Untagged
@@ -1713,6 +1806,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 793792289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &557263818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557263815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bb33c5ddde91346a70aad29edd17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 557263816}
+  isTorch: 1
 --- !u!1 &566905127
 GameObject:
   m_ObjectHideFlags: 0
@@ -4359,6 +4466,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1604290280}
   - component: {fileID: 1604290281}
+  - component: {fileID: 1604290282}
+  - component: {fileID: 1604290283}
   m_Layer: 8
   m_Name: RightCollider
   m_TagString: Platform
@@ -4412,7 +4521,7 @@ BoxCollider2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
@@ -4427,6 +4536,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1604290282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604290279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bc9da80c6a17414c8608aef4f0dc856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!251 &1604290283
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604290279}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1717786700
 GameObject:
   m_ObjectHideFlags: 0
@@ -4791,6 +4931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1802970979}
   - component: {fileID: 1802970978}
+  - component: {fileID: 1802970980}
   m_Layer: 0
   m_Name: RightCandleLight
   m_TagString: Untagged
@@ -4866,6 +5007,20 @@ Transform:
   - {fileID: 1994865571}
   m_Father: {fileID: 163508092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1802970980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802970977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bb33c5ddde91346a70aad29edd17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 1802970978}
+  isTorch: 0
 --- !u!1 &1809830431
 GameObject:
   m_ObjectHideFlags: 0
@@ -5149,6 +5304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1910300534}
   - component: {fileID: 1910300533}
+  - component: {fileID: 1910300535}
   m_Layer: 0
   m_Name: LeftTorchLight
   m_TagString: Untagged
@@ -5223,6 +5379,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 793792289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1910300535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910300532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bb33c5ddde91346a70aad29edd17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 1910300533}
+  isTorch: 1
 --- !u!1 &1951154731
 GameObject:
   m_ObjectHideFlags: 0
@@ -5522,10 +5692,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player1
       objectReference: {fileID: 0}
-    - target: {fileID: 4895489551918383287, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
-      propertyPath: PlayerDied.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8641321578719984220, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5
@@ -5694,6 +5860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2127883126}
   - component: {fileID: 2127883125}
+  - component: {fileID: 2127883127}
   m_Layer: 0
   m_Name: MidLeftCandleLight
   m_TagString: Untagged
@@ -5769,6 +5936,20 @@ Transform:
   - {fileID: 1763916074}
   m_Father: {fileID: 163508092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2127883127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127883124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bb33c5ddde91346a70aad29edd17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 2127883125}
+  isTorch: 0
 --- !u!1 &2135673046
 GameObject:
   m_ObjectHideFlags: 0

@@ -93,6 +93,8 @@ public class PlayerController : MonoBehaviour
     #endregion
     private void Awake()
     {
+        _dashVFX.Stop();
+        _hitVFX.Stop();
         _rigidbody = GetComponent<Rigidbody2D>();
         _hurtboxCollider = GetComponent<CapsuleCollider2D>();
         _collisionCollider = GetComponent<BoxCollider2D>();
@@ -104,7 +106,6 @@ public class PlayerController : MonoBehaviour
         CurrentStamina = _maxStamina;
         _lastFacedDirection = isPlayer1 ? 1 : -1;
         _currentMoveSpeed = moveSpeed;
-        _dashVFX.Stop();
     }
 
     private void Start()
@@ -294,7 +295,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Death()
+    public void Death()
     {
         _livesRemaining -= 1;
         _spriteRenderer.enabled = false;
