@@ -414,9 +414,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0.697
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -827,9 +827,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0.844
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 26
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1263,6 +1263,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 912802c24ec49f048a3e7f35b4093c2d, type: 3}
+--- !u!114 &422878947 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2255589885291685162, guid: 912802c24ec49f048a3e7f35b4093c2d, type: 3}
+  m_PrefabInstance: {fileID: 422878946}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e724da7928b694db0f0224121fc3d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &503284692
 GameObject:
   m_ObjectHideFlags: 0
@@ -2713,8 +2724,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c85ff31095074a4794cc06c630ceef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heart1: {fileID: 0}
-  _heart2: {fileID: 0}
+  _playerController: {fileID: 2031554667}
+  _heart1: {fileID: 1717786702}
+  _heart2: {fileID: 566905129}
+  _healthSlider: {fileID: 136669221}
+  _staminaSlider: {fileID: 1003787917}
 --- !u!1 &1003787915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2799,9 +2813,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0.398
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2964,9 +2978,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 1
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0.913
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5445,8 +5459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c85ff31095074a4794cc06c630ceef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heart1: {fileID: 0}
-  _heart2: {fileID: 0}
+  _playerController: {fileID: 422878947}
+  _heart1: {fileID: 1868544669}
+  _heart2: {fileID: 1028386668}
+  _healthSlider: {fileID: 265419591}
+  _staminaSlider: {fileID: 1070529581}
 --- !u!1 &1962828105
 GameObject:
   m_ObjectHideFlags: 0
@@ -5737,6 +5754,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
+--- !u!114 &2031554667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4895489551918383287, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
+  m_PrefabInstance: {fileID: 2031554666}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e724da7928b694db0f0224121fc3d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2038069909
 GameObject:
   m_ObjectHideFlags: 0

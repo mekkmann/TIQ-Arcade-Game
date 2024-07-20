@@ -71,7 +71,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private bool isPlayer1 = true;
 
-    public UnityEvent<PlayerController> PlayerDied;
+    public event Action<int> PlayerDiedEvent;
+    public event Action<int> TakeDamageEvent;
 
     private float _attackDirection;
 
@@ -285,6 +286,8 @@ public class PlayerController : MonoBehaviour
     private void TakeDamage(int damage)
     {
         CurrentHealth -= damage;
+        TakeDamageEvent.Invoke(damage);
+        Debug.Log($"Current health [{CurrentHealth}]");
         if (CurrentHealth <= 0)
         {
             Death();
@@ -299,7 +302,7 @@ public class PlayerController : MonoBehaviour
     {
         _livesRemaining -= 1;
         _spriteRenderer.enabled = false;
-        PlayerDied.Invoke(this);
+        PlayerDiedEvent.Invoke(_livesRemaining);
     }
 
     public void RoundReset()
@@ -367,6 +370,7 @@ public class PlayerController : MonoBehaviour
     private void DrainStamina(int stamina)
     {
         CurrentStamina -= stamina;
+        Debug.Log(CurrentStamina);
         if (CurrentStamina <= 0)
         {
             CurrentStamina = 0;
@@ -381,7 +385,6 @@ public class PlayerController : MonoBehaviour
     private void Attack(InputAction.CallbackContext callbackContext)
     {
         if (!_canAttack || CurrentStamina < _staminaAttackDrain) return;
-
 
         _canAttack = false;
         _animator.SetTrigger("attack");
