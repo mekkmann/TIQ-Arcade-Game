@@ -11,7 +11,6 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Slider _staminaSlider;
 
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

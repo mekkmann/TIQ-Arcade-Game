@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class GameManager : TransientSingleton<GameManager>
 
     void Start()
     {
+        _player1.PlayerDiedEvent += (livesRemaining) => PlayerDied(livesRemaining);
+        _player2.PlayerDiedEvent += (livesRemaining) => PlayerDied(livesRemaining);
     }
 
     void Update()
@@ -50,7 +53,15 @@ public class GameManager : TransientSingleton<GameManager>
     {
         if (_pauseUI != null)
         {
-            _pauseUI.SetActive(true);
+            _pauseUI.SetActive(!_pauseUI.activeInHierarchy);
+            if (!_pauseUI.activeInHierarchy)
+            {
+                Time.timeScale = 1.0f;
+            } else
+            {
+                Time.timeScale = 0f;
+            }
+
         } else
         {
             _pauseUI = GameObject.Find("Pause_UI");
@@ -67,49 +78,37 @@ public class GameManager : TransientSingleton<GameManager>
     //    _winnerText.enabled = false;
     //    _restartText.enabled = false;
     //}
+    public event Action RoundResetEvent;
+    public void StartRound()
+    {
+        if (CheckIfPlayerHasWon())
+        {
+            return;
+        }
+        _player1.SpawnAt(_player1SpawnPoint);
+        _player2.SpawnAt(_player2SpawnPoint);
+        _player1.RoundReset();
+        _player2.RoundReset();
+    }
 
-    //public void StartRound()
-    //{
-    //    if (CheckIfPlayerHasWon())
-    //    {
-    //        return;
-    //    }
-    //    _player1.SpawnAt(_player1SpawnPoint);
-    //    _player2.SpawnAt(_player2SpawnPoint);
-    //    _player1.RoundReset();
-    //    _player2.RoundReset();
-    //}
+    private void PlayerDied(int test)
+    {
+        StartRound();
+    }
+    public bool CheckIfPlayerHasWon()
+    {
+        if (_player1.LivesRemaining == 0)
+        {
+            Debug.Log("Player 2");
+            return true;
+        }
+        else if (_player2.LivesRemaining == 0)
+        {
+            Debug.Log("Player 1");
+            return true;
+        }
 
-    //public bool CheckIfPlayerHasWon()
-    //{
-    //    if (_player1.LivesRemaining == 0)
-    //    {
-    //        ShowWinner("Player 2");
-    //        return true;
-    //    }
-    //    else if (_player2.LivesRemaining == 0)
-    //    {
-    //        ShowWinner("Player 1");
-    //        return true;
-    //    }
+        return false;
+    }
 
-    //    return false;
-    //}
-
-    //private void ShowWinner(string winner)
-    //{
-    //    _winnerText.SetText(winner + " wins!");
-    //    _winnerText.gameObject.SetActive(true);
-    //    _restartText.gameObject.SetActive(true);
-    //}
-
-    //private IEnumerator GlobalLightRoutine()
-    //{
-    //    while (_light2D.intensity < 500)
-    //    {
-    //        _light2D.intensity++;
-    //        yield return new WaitForSeconds(0.1f);
-
-    //    }
-    //}
 }
