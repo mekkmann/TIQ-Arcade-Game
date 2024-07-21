@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 
@@ -362,7 +361,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                CurrentStamina += 1;
+                CurrentStamina += 3;
             }
         }
     }

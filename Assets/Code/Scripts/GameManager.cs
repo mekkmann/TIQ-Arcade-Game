@@ -18,8 +18,8 @@ public class GameManager : TransientSingleton<GameManager>
     [SerializeField] private TextMeshProUGUI _winnerText;
     [SerializeField] private TextMeshProUGUI _restartText;
     [SerializeField] private Light2D _light2D;
-    [SerializeField] private UIHandler _player1UIHandler;
-    [SerializeField] private UIHandler _player2UIHandler;
+    [SerializeField] private PlayerHUD _player1HUD;
+    [SerializeField] private PlayerHUD _player2HUD;
 
     [SerializeField] private GameObject _pauseUI;
 
@@ -33,7 +33,7 @@ public class GameManager : TransientSingleton<GameManager>
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("Should restart game");
+            RestartGame();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -57,33 +57,28 @@ public class GameManager : TransientSingleton<GameManager>
             if (!_pauseUI.activeInHierarchy)
             {
                 Time.timeScale = 1.0f;
-            } else
+            }
+            else
             {
                 Time.timeScale = 0f;
             }
 
-        } else
+        }
+        else
         {
             _pauseUI = GameObject.Find("Pause_UI");
         }
     }
-    //private void RestartGame()
-    //{
-    //    _player1.SpawnAt(_player1SpawnPoint);
-    //    _player2.SpawnAt(_player2SpawnPoint);
-    //    _player1.GameReset();
-    //    _player2.GameReset();
-    //    _player1UIHandler.ResetHearts();
-    //    _player2UIHandler.ResetHearts();
-    //    _winnerText.enabled = false;
-    //    _restartText.enabled = false;
-    //}
+    private void RestartGame()
+    {
+        SceneManager.LoadScene(ARENA_INDEX);
+    }
     public event Action RoundResetEvent;
-    public void StartRound()
+    public IEnumerable StartRound()
     {
         if (CheckIfPlayerHasWon())
         {
-            return;
+            yield return new WaitForSeconds(1.5f);
         }
         _player1.SpawnAt(_player1SpawnPoint);
         _player2.SpawnAt(_player2SpawnPoint);
