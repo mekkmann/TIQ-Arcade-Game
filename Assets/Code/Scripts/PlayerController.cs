@@ -446,6 +446,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DashRoutine()
     {
+        _dashVFX.SetBool("rotate", _lastFacedDirection == 1);
         _dashVFX.Play();
         _animator.SetBool("isDashing", true);
         _rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
