@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private readonly int _staminaAttackDrain = 20;
     [SerializeField] private readonly int _staminaDashDrain = 15;
 
+    [SerializeField] AudioSource _audioSource;
+    [SerializeField] AudioClip[] _walkSFX;
+
     public VisualEffect _hitVFX;
     public VisualEffect _dashVFX;
 
@@ -36,19 +39,6 @@ public class PlayerController : MonoBehaviour
     private int _livesRemaining = 2;
     public int LivesRemaining => _livesRemaining;
 
-    //public int Test
-    //{
-    //    get
-    //    {
-    //        return _currentHealth;
-    //    }
-    //    set
-    //    {
-    //        if(value < 0)
-    //            _currentHealth = 0;
-
-    //    }
-    //}
     private PlayerController _otherPlayer;
     private string _playerToSearchFor;
     private float _currentMoveSpeed;
@@ -91,6 +81,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 5f)][SerializeField] private float fallLongMultiplier = 0.85f;
     [Range(0, 5f)][SerializeField] private float fallShortMultiplier = 1.55f;
     #endregion
+
     private void Awake()
     {
         _dashVFX.Stop();
@@ -107,7 +98,11 @@ public class PlayerController : MonoBehaviour
         _lastFacedDirection = isPlayer1 ? 1 : -1;
         _currentMoveSpeed = moveSpeed;
     }
-
+    public void PlayWalkSound()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, 3);
+        _audioSource.PlayOneShot(_walkSFX[randomIndex], 0.5f);
+    }
     private void Start()
     {
         StartCoroutine(nameof(RecoverStaminaRoutine));
