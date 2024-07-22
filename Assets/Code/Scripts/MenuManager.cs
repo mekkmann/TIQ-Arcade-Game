@@ -91,12 +91,12 @@ public class MenuManager : MonoBehaviour
 
     public void HandleVolumeChange(float newVolume)
     {
-        if (newVolume < 0f || newVolume > 100f)
+        if (newVolume < 0f || newVolume > 1f)
         {
             return;
         }
 
-        _centerAudioSource.volume = newVolume / 100;
+        _centerAudioSource.volume = newVolume;
 
         if (!_centerAudioSource.isPlaying)
         {
