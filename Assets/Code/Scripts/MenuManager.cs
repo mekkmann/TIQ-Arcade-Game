@@ -10,8 +10,8 @@ public class MenuManager : MonoBehaviour
     const int MAINMENUINDEX = 0;
     const int GAMEINDEX = 1;
 
-    private GameObject _mainMenuUI;
-    private GameObject _settingsMenuUI;
+    private GameObject? _mainMenuUI;
+    private GameObject? _settingsMenuUI;
 
     [SerializeField] private AudioSource _centerAudioSource;
 
@@ -31,11 +31,15 @@ public class MenuManager : MonoBehaviour
 
         DontDestroyOnLoad(this);
 
-        _mainMenuUI = GameObject.Find("MainMenu");
-        _mainMenuUI.SetActive(true);
-        _settingsMenuUI = GameObject.Find("SettingsMenu");
-        _settingsMenuUI.SetActive(false);
-        _volumeSlider.onValueChanged.AddListener((call) => HandleVolumeChange(call));
+        if (SceneManager.GetActiveScene().buildIndex == MAINMENUINDEX)
+        {
+            _mainMenuUI = GameObject.Find("MainMenu");
+            _mainMenuUI.SetActive(true);
+            _settingsMenuUI = GameObject.Find("SettingsMenu");
+            _settingsMenuUI.SetActive(false);
+            _volumeSlider.onValueChanged.AddListener((call) => HandleVolumeChange(call));
+        }
+        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
