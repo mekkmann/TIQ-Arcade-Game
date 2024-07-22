@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private AudioSource _centerAudioSource;
 
     [SerializeField] private Slider _volumeSlider;
-    [SerializeField] private Image _muteImage;
+    [SerializeField] private Image _checkmark;
 
     private void Awake()
     {
@@ -77,15 +77,15 @@ public class MenuManager : MonoBehaviour
 
     public void HandleMute()
     {
-        if (!_centerAudioSource.isPlaying)
+        if (!_centerAudioSource.mute)
         {
-            _centerAudioSource.Play();
-            _muteImage.enabled = true;
+            _centerAudioSource.mute = true;
+            _checkmark.enabled = false;
         }
         else
         {
-            _centerAudioSource.Stop();
-            _muteImage.enabled = false;
+            _centerAudioSource.mute = false;
+            _checkmark.enabled = true;
         }
     }
 
@@ -96,14 +96,14 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
+        if (_centerAudioSource.mute) _centerAudioSource.mute = !_centerAudioSource.mute;
+
         _centerAudioSource.volume = newVolume;
 
         if (!_centerAudioSource.isPlaying)
         {
             _centerAudioSource.Play();
         }
-
-        Debug.Log(_centerAudioSource.volume);
     }
     public void LoadScene(int index)
     {

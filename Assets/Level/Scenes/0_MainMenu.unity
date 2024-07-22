@@ -3835,7 +3835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _centerAudioSource: {fileID: 54326327}
   _volumeSlider: {fileID: 2036778237}
-  _muteImage: {fileID: 584215085}
+  _checkmark: {fileID: 584215085}
 --- !u!1 &2131359004
 GameObject:
   m_ObjectHideFlags: 0
