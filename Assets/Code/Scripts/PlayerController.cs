@@ -284,9 +284,9 @@ public class PlayerController : MonoBehaviour
 
     private void TakeDamage(int damage)
     {
+        damage = 90;
         CurrentHealth -= damage;
         TakeDamageEvent.Invoke(damage);
-        Debug.Log($"Current health [{CurrentHealth}]");
         if (CurrentHealth <= 0)
         {
             Death();
@@ -302,6 +302,10 @@ public class PlayerController : MonoBehaviour
         _livesRemaining -= 1;
         _spriteRenderer.enabled = false;
         PlayerDiedEvent.Invoke(_livesRemaining);
+        if (_livesRemaining > 0)
+        {
+            GameManager.Instance.StartStartRound();
+        }
     }
 
     public void RoundReset()

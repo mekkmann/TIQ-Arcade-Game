@@ -2052,8 +2052,9 @@ MonoBehaviour:
   _player2: {fileID: 422878947}
   _player2SpawnPoint: {fileID: 740344867}
   _winnerText: {fileID: 2030072723}
-  _restartText: {fileID: 1203524715}
-  _light2D: {fileID: 0}
+  _winnerDisplay: {fileID: 1811566208}
+  _restartPrompt: {fileID: 0}
+  _light2D: {fileID: 619394801}
   _player1HUD: {fileID: 937718396}
   _player2HUD: {fileID: 1951154733}
   _pauseUI: {fileID: 2045403461}
@@ -3367,7 +3368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1203524714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5325,7 +5326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1811566209
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6119,7 +6120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2030072722
 RectTransform:
   m_ObjectHideFlags: 0

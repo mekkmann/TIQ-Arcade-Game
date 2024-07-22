@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -16,7 +15,8 @@ public class GameManager : TransientSingleton<GameManager>
     [SerializeField] private PlayerController _player2;
     [SerializeField] private Transform _player2SpawnPoint;
     [SerializeField] private TextMeshProUGUI _winnerText;
-    [SerializeField] private TextMeshProUGUI _restartText;
+    [SerializeField] private GameObject _winnerDisplay;
+    [SerializeField] private GameObject _restartPrompt;
     [SerializeField] private Light2D _light2D;
     [SerializeField] private PlayerHUD _player1HUD;
     [SerializeField] private PlayerHUD _player2HUD;
@@ -69,41 +69,54 @@ public class GameManager : TransientSingleton<GameManager>
             _pauseUI = GameObject.Find("Pause_UI");
         }
     }
-    private void RestartGame()
+    public void RestartGame()
     {
         SceneManager.LoadScene(ARENA_INDEX);
     }
     public event Action RoundResetEvent;
-    public IEnumerable StartRound()
+    public void StartStartRound() => StartCoroutine(nameof(StartRound));
+    public void StartRound()
     {
         if (CheckIfPlayerHasWon())
         {
-            yield return new WaitForSeconds(1.5f);
+            return;
         }
-        _player1.SpawnAt(_player1SpawnPoint);
-        _player2.SpawnAt(_player2SpawnPoint);
-        _player1.RoundReset();
-        _player2.RoundReset();
+        else
+        {
+            _player1.SpawnAt(_player1SpawnPoint);
+            _player2.SpawnAt(_player2SpawnPoint);
+            _player1.RoundReset();
+            _player2.RoundReset();
+        }
+
     }
 
-    private void PlayerDied(int test)
+    private void PlayerDied(int i)
     {
+        Debug.Log("PlayerDied from GameManager");
         StartRound();
     }
     public bool CheckIfPlayerHasWon()
     {
         if (_player1.LivesRemaining == 0)
         {
-            Debug.Log("Player 2");
+            HandleWinnerScreen(false);
             return true;
         }
         else if (_player2.LivesRemaining == 0)
         {
-            Debug.Log("Player 1");
+            HandleWinnerScreen(true);
             return true;
         }
 
         return false;
+    }
+
+    private void HandleWinnerScreen(bool p1)
+    {
+        _winnerDisplay.SetActive(!_winnerDisplay.activeInHierarchy);
+        _winnerText.text = $"Player {(p1 ? "1" : "2")} wins!";
+        //_restartPrompt.SetActive(!_restartPrompt.activeInHierarchy);
     }
 
 }
