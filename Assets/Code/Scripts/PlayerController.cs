@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         _lastFacedDirection = isPlayer1 ? 1 : -1;
         _currentMoveSpeed = moveSpeed;
 
-        _dashVFX.SetVector3("color", (Vector4)_spriteRenderer.color);
+        _dashVFX.SetVector4("color", (Vector4)_spriteRenderer.color);
     }
     public void PlayWalkSound()
     {

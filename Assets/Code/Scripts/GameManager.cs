@@ -48,7 +48,7 @@ public class GameManager : TransientSingleton<GameManager>
     {
         SceneManager.LoadScene(MAINMENU_INDEX);
     }
-    private void HandlePauseMenu()
+    public void HandlePauseMenu()
     {
         if (_pauseUI != null)
         {
