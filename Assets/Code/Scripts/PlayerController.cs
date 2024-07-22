@@ -240,11 +240,14 @@ public class PlayerController : MonoBehaviour
             if (_rigidbody.velocity.x < 0)
             {
                 _spriteRenderer.flipX = true;
+                _dashVFX.gameObject.transform.Rotate(Vector3.forward);
+
                 _lastFacedDirection = -1;
             }
             else if (_rigidbody.velocity.x > 0)
             {
                 _spriteRenderer.flipX = false;
+                _dashVFX.gameObject.transform.Rotate(Vector3.back);
                 _lastFacedDirection = 1;
             }
             _animator.SetBool("isMoving", true);
