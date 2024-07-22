@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
         _mainMenuUI.SetActive(true);
         _settingsMenuUI = GameObject.Find("SettingsMenu");
         _settingsMenuUI.SetActive(false);
-        _volumeSlider.onValueChanged.AddListener(HandleVolumeChange);
+        _volumeSlider.onValueChanged.AddListener((call) => HandleVolumeChange(call));
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -87,8 +87,6 @@ public class MenuManager : MonoBehaviour
             _centerAudioSource.Stop();
             _muteImage.enabled = false;
         }
-        Debug.Log($"audioSource is stopped: [{_centerAudioSource.isPlaying} and then we have the image, is it showing: {_muteImage.enabled}]");
-
     }
 
     public void HandleVolumeChange(float newVolume)
@@ -98,7 +96,7 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        _centerAudioSource.volume = newVolume;
+        _centerAudioSource.volume = newVolume / 100;
 
         if (!_centerAudioSource.isPlaying)
         {
