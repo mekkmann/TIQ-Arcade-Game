@@ -16,7 +16,6 @@ public class GameManager : TransientSingleton<GameManager>
     [SerializeField] private Transform _player2SpawnPoint;
     [SerializeField] private TextMeshProUGUI _winnerText;
     [SerializeField] private GameObject _winnerDisplay;
-    [SerializeField] private GameObject _restartPrompt;
     [SerializeField] private Light2D _light2D;
     [SerializeField] private PlayerHUD _player1HUD;
     [SerializeField] private PlayerHUD _player2HUD;
@@ -116,7 +115,6 @@ public class GameManager : TransientSingleton<GameManager>
     {
         _winnerDisplay.SetActive(!_winnerDisplay.activeInHierarchy);
         _winnerText.text = $"Player {(p1 ? "1" : "2")} wins!";
-        //_restartPrompt.SetActive(!_restartPrompt.activeInHierarchy);
     }
 
 }

@@ -43,9 +43,9 @@ public class PlayerController : MonoBehaviour
     private PlayerController _otherPlayer;
     private string _playerToSearchFor;
     private float _currentMoveSpeed;
-    public float moveSpeed = 1f; //PUT THIS IN SCRIPTABLESTATS
-    public float dashSpeed = 3f; //PUT THIS IN SCRIPTABLESTATS
-    public float jumpForce = 1f; //PUT THIS IN SCRIPTABLESTATS
+    public float moveSpeed = 1f;
+    public float dashSpeed = 3f;
+    public float jumpForce = 1f;
 
 
     #region INPUTS
@@ -98,6 +98,8 @@ public class PlayerController : MonoBehaviour
         CurrentStamina = _maxStamina;
         _lastFacedDirection = isPlayer1 ? 1 : -1;
         _currentMoveSpeed = moveSpeed;
+
+        _dashVFX.SetVector3("color", (Vector4)_spriteRenderer.color);
     }
     public void PlayWalkSound()
     {
