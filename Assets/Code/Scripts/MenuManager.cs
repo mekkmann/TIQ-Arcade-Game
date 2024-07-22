@@ -10,8 +10,10 @@ public class MenuManager : MonoBehaviour
     const int MAINMENUINDEX = 0;
     const int GAMEINDEX = 1;
 
+#nullable enable
     private GameObject? _mainMenuUI;
     private GameObject? _settingsMenuUI;
+#nullable disable
 
     [SerializeField] private AudioSource _centerAudioSource;
 
@@ -133,10 +135,4 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void ToggleSound()
-    {
-        AudioListener.pause = !AudioListener.pause;
-        Debug.Log($"AudioListener is paused: [{AudioListener.pause}]");
-        HandleMute();
-    }
 }

@@ -72,7 +72,7 @@ public class GameManager : TransientSingleton<GameManager>
     {
         SceneManager.LoadScene(ARENA_INDEX);
     }
-    public event Action RoundResetEvent;
+    //public event Action RoundResetEvent;
     public void StartStartRound() => StartCoroutine(nameof(StartRound));
     public void StartRound()
     {
@@ -92,7 +92,6 @@ public class GameManager : TransientSingleton<GameManager>
 
     private void PlayerDied(int i)
     {
-        Debug.Log("PlayerDied from GameManager");
         StartRound();
     }
     public bool CheckIfPlayerHasWon()

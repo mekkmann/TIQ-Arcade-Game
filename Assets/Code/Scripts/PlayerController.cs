@@ -77,7 +77,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region BETTER JUMP
-    private bool _jump = false;
     private bool _jumpHeld = false;
     [Range(0, 5f)][SerializeField] private float fallLongMultiplier = 0.85f;
     [Range(0, 5f)][SerializeField] private float fallShortMultiplier = 1.55f;
@@ -378,7 +377,6 @@ public class PlayerController : MonoBehaviour
     private void DrainStamina(int stamina)
     {
         CurrentStamina -= stamina;
-        Debug.Log(CurrentStamina);
         if (CurrentStamina <= 0)
         {
             CurrentStamina = 0;
