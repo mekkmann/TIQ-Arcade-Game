@@ -194,6 +194,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fd721021dbee23b4cb0ac222bc7c4c2c, type: 3}
   - {fileID: 8300000, guid: 5030223e0cddcb34bac58d6acc55f566, type: 3}
   - {fileID: 8300000, guid: 09bbc0ce1de2f5943aad3f41edbb685b, type: 3}
+  _jumpSFX: {fileID: 8300000, guid: 67edaaea8eaf8594182b073ad746ee9c, type: 3}
   _hitVFX: {fileID: 9157218467368832191}
   _dashVFX: {fileID: 4751086604435644171}
   moveSpeed: 1

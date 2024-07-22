@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] AudioSource _audioSource;
     [SerializeField] AudioClip[] _walkSFX;
+    [SerializeField] AudioClip _jumpSFX;
 
     public VisualEffect _hitVFX;
     public VisualEffect _dashVFX;
@@ -101,7 +102,11 @@ public class PlayerController : MonoBehaviour
     public void PlayWalkSound()
     {
         int randomIndex = UnityEngine.Random.Range(0, 3);
-        _audioSource.PlayOneShot(_walkSFX[randomIndex], 0.5f);
+        _audioSource.PlayOneShot(_walkSFX[randomIndex], 0.7f);
+    }
+    public void PlayJumpSound()
+    {
+        _audioSource.PlayOneShot(_jumpSFX, 0.2f);
     }
     private void Start()
     {

@@ -6428,10 +6428,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1731492230951877197, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: d46e02e89f6461442b39e554e2366b38, type: 2}
     - target: {fileID: 2968658381909283337, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
       propertyPath: m_Name
       value: Player1
       objectReference: {fileID: 0}
+    - target: {fileID: 4849724062326902904, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: d46e02e89f6461442b39e554e2366b38, type: 2}
     - target: {fileID: 8641321578719984220, guid: 095b58a797446cd4c9410d5318b84b2a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5
