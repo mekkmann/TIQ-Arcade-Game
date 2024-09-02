@@ -288,7 +288,7 @@ public class PlayerController : MonoBehaviour
 
     private void TakeDamage(int damage)
     {
-        damage = 90;
+        damage = 25;
         CurrentHealth -= damage;
         TakeDamageEvent.Invoke(damage);
         if (CurrentHealth <= 0)
@@ -320,9 +320,9 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator RoundResetRoutine()
     {
-        yield return new WaitForSeconds(2f);
-        CurrentHealth = MaxHealth;
-        CurrentStamina = MaxStamina;
+        yield return new WaitForSeconds(1f);
+        CurrentHealth = _maxHealth;
+        CurrentStamina = _maxStamina;
         _spriteRenderer.enabled = true;
         ActivateControls();
         StartCoroutine(nameof(RecoverStaminaRoutine));
@@ -471,7 +471,7 @@ public class PlayerController : MonoBehaviour
     {
         playerControls.Enable();
     }
-    private void DeactivateControls()
+    public void DeactivateControls()
     {
         playerControls.Disable();
     }

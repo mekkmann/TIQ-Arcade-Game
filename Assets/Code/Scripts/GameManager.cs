@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -66,6 +65,7 @@ public class GameManager : TransientSingleton<GameManager>
         else
         {
             _pauseUI = GameObject.Find("Pause_UI");
+            HandlePauseMenu();
         }
     }
     public void RestartGame()
@@ -107,11 +107,14 @@ public class GameManager : TransientSingleton<GameManager>
             return true;
         }
 
+
         return false;
     }
 
     private void HandleWinnerScreen(bool p1)
     {
+        _player1.DeactivateControls();
+        _player2.DeactivateControls();
         _winnerDisplay.SetActive(!_winnerDisplay.activeInHierarchy);
         _winnerText.text = $"Player {(p1 ? "1" : "2")} wins!";
     }

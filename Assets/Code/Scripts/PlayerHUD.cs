@@ -31,6 +31,7 @@ public class PlayerHUD : MonoBehaviour
         {
             case 1:
                 _heart1.enabled = false;
+                _healthSlider.value = _healthSlider.maxValue;
                 break;
             case 0:
                 _heart2.enabled = false;

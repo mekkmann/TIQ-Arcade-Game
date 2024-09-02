@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MenuManager : MonoBehaviour
+public class MenuManager : TransientSingleton<MenuManager>
 {
     public static MenuManager instance;
 
@@ -20,7 +19,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Slider _volumeSlider;
     [SerializeField] private Image _checkmark;
 
-    private void Awake()
+    private new void Awake()
     {
         if (instance == null)
         {
@@ -41,7 +40,7 @@ public class MenuManager : MonoBehaviour
             _settingsMenuUI.SetActive(false);
             _volumeSlider.onValueChanged.AddListener((call) => HandleVolumeChange(call));
         }
-        
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -60,19 +59,11 @@ public class MenuManager : MonoBehaviour
                 case MAINMENUINDEX:
                     ToggleSettingsMenu();
                     break;
-                case GAMEINDEX:
-                    TogglePauseMenu();
-                    break;
                 default:
-                    Debug.LogError("Somehow an unaccounted and non-existent Scene caused this issue");
+                    Debug.LogError("Focus on using the manager next time");
                     break;
             }
         }
-    }
-
-    private void TogglePauseMenu()
-    {
-        throw new NotImplementedException();
     }
 
     public void ToggleSettingsMenu()
@@ -127,7 +118,9 @@ public class MenuManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        Debug.Log("Dafuq");
         LoadScene(MAINMENUINDEX);
+        Time.timeScale = 1.0f;
     }
 
     public void QuitGame()
